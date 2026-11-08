@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: crediya-postgres
+    environment:
+      POSTGRES_USER: crediya
+      POSTGRES_PASSWORD: crediya
+      POSTGRES_DB: crediya_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - crediya_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crediya -d crediya_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  crediya_pgdata:
